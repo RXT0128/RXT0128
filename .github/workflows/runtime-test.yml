@@ -1,0 +1,65 @@
+# Continuous Integration that checks if the change broke the runtime of the used emacs-lisp scripts
+name: runtime-test
+
+# Relevant to events - https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'src/RXT0128/codeblocks/find-emacs-dirs.el'
+      - 'src/RXT0128/00-init-prepend.el'
+      - 'src/RXT0128/01-init-append.el'
+  pull_request:
+    types: [synchronize, opened, reopened, ready_for_review]
+    paths:
+      - 'src/RXT0128/codeblocks/find-emacs-dirs.el'
+      - 'src/RXT0128/00-init-prepend.el'
+      - 'src/RXT0128/01-init-append.el'
+  releases:
+    types:
+      - created
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    container: debian:stable
+    steps:
+      - name: Installing dependencies..
+        shell: bash
+        run: |
+          apt-get update -q
+          apt-get install emacs -qy
+     - name: Pulling the repository..
+       uses: actions/checkout@v2
+     - name: Performing the test..
+       shell: bash
+       run: |
+         cd "$GITHUB_WORKSPACE"
+         make runtime-emacs-script
+  darwin:
+    runs-on: macos-latest
+    steps:
+      - name: Installing dependencies..
+        shell: bash
+        run: |
+          # Based on http://wikemacs.org/wiki/Installing_Emacs_on_OS_X#Homebrew_recommended_by_brew
+          brew update
+          brew cask install emacs
+     - name: Pulling the repository..
+       uses: actions/checkout@v2
+     - name: Performing the test..
+       shell: bash
+       run: |
+         cd "$GITHUB_WORKSPACE"
+         make runtime-emacs-script
+  windows:
+    runs-on: windows-latest 
+    steps:
+      - name: Pulling the repository..
+        uses: actions/checkout@v2
+      - name: Performing the test..
+        shell: bash
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          make runtime-emacs-script 
