@@ -59,7 +59,7 @@ jobs:
       - name: Pulling the repository..
         uses: actions/checkout@v2
       - name: Performing the test..
-        shell: bash
+        shell: powershell
         run: |
-          cd "$GITHUB_WORKSPACE"
+          cd $env:GITHUB_WORKSPACE
           make runtime-emacs-script 
