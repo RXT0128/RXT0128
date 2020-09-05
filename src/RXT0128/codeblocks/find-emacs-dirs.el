@@ -16,18 +16,21 @@
 ;;;! ---
 ;;;!
 ;;;! WARNING: Use only standard functions as this is used at the header of the file during initialization to find the directory
+
+
 (cond
  ((> (length (getenv "EMACS_DIR")) 0)
   (setq user-emacs-directory (getenv "EMACS_DIR")))
  ;; If EMACS_DIR variable is unset or blank
- ((= (length (getenv "EMACS_DIR")) 0)
+ ((getenv "EMACS_DIR"))
   (cl-case system-type
     ((gnu gnu/linux)
      (cond
       ((> (length (getenv "XDG_CONFIG_HOME")) 0)
        ;; FIXME-QA: Implement check for expected directory
        (setq user-emacs-directory (concat (getenv "XDG_CONFIG_HOME") "/" emacs-distro-name)))
-      ((= (length (getenv "XDG_CONFIG_HOME")) 0)
+      ;; NOTICE(Krey): As of 05/09/2020-EU emacs needs full path stored in user-emacs-directory thus checking for slash on linux
+      ((string-match-p "^/" (or (getenv "XDG_CONFIG_HOME") ""))
        ;; FIXME-QA: Implement check for expected directory
        (setq user-emacs-directory (concat (getenv "HOME") "/" emacs-distro-name)))
       (t
