@@ -52,7 +52,7 @@ jobs:
         - name: Installing dependencies..
           # https://caiorss.github.io/Emacs-Elisp-Programming/Emacs_On_Windows.html
           run: |
-            choco install emacs64
+            choco install emacs
             choco install make
         - name: Fetching git directory..
           uses: actions/checkout@v2
@@ -60,8 +60,6 @@ jobs:
           shell: powershell
           run: |
             cd "$env:GITHUB_WORKSPACE"
-
-            $env:EMACS = "emacs64"
 
             make -C "$env:GITHUB_WORKSPACE" runtime-emacs-script
 
