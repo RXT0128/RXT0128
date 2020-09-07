@@ -46,20 +46,3 @@ jobs:
             cd "$GITHUB_WORKSPACE"
 
             make -C "$GITHUB_WORKSPACE" runtime-emacs-script
-  windows-runtime:
-    runs-on: windows-latest
-    steps:
-        - name: Installing dependencies..
-          # https://caiorss.github.io/Emacs-Elisp-Programming/Emacs_On_Windows.html
-          run: |
-            choco install emacs
-            choco install make
-        - name: Fetching git directory..
-          uses: actions/checkout@v2
-        - name: Processing runtime..
-          shell: powershell
-          run: |
-            cd "$env:GITHUB_WORKSPACE"
-
-            Start-Process -FilePath make -Verb Runas -ArgumentList '-C' "$env:GITHUB_WORKSPACE" 'runtime-emacs-script'
-
