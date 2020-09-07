@@ -61,5 +61,5 @@ jobs:
           run: |
             cd "$env:GITHUB_WORKSPACE"
 
-            make -C "$env:GITHUB_WORKSPACE" runtime-emacs-script
+            Start-Process -FilePath make -Verb Runas -ArgumentList '-C' "$env:GITHUB_WORKSPACE" 'runtime-emacs-script'
 
