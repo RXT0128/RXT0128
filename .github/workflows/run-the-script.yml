@@ -46,7 +46,7 @@ jobs:
             cd "$GITHUB_WORKSPACE"
 
             make -C "$GITHUB_WORKSPACE" runtime-emacs-script
-  darwin-runtime:
+  windows-runtime:
     runs-on: windows-latest
     steps:
         - name: Installing dependencies..
