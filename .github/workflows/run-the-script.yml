@@ -61,5 +61,5 @@ jobs:
           run: |
             cd $env:GITHUB_WORKSPACE
 
-            make -C "$GITHUB_WORKSPACE" runtime-emacs-script
+            make -C "$env:GITHUB_WORKSPACE" runtime-emacs-script
 
