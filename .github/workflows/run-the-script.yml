@@ -59,7 +59,9 @@ jobs:
         - name: Processing runtime..
           shell: powershell
           run: |
-            cd $env:GITHUB_WORKSPACE
+            cd "$env:GITHUB_WORKSPACE"
+
+            Set-Variable -Name EMACS -Value "emacs64"
 
             make -C "$env:GITHUB_WORKSPACE" runtime-emacs-script
 
