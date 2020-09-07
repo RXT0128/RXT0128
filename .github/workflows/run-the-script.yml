@@ -61,7 +61,7 @@ jobs:
           run: |
             cd "$env:GITHUB_WORKSPACE"
 
-            Set-Variable -Name EMACS -Value "emacs64"
+            $env:EMACS = "emasc64"
 
             make -C "$env:GITHUB_WORKSPACE" runtime-emacs-script
 
