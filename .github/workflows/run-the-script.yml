@@ -1,0 +1,65 @@
+me: elisp-runtime
+
+# Relevant to events - https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows
+on:
+  push:
+    brances:
+      - master
+    paths:
+      - '**.el'
+  pull_request:
+    types: [ opened, reopened, ready_for_review ]
+    paths:
+    - '**.el'
+
+jobs:
+  linux-runtime:
+    runs-on: ubuntu-latest
+    container: debian:stable
+    steps:
+        - name: Installing dependencies..
+          shell: bash
+          run: |
+            apt-get update
+            apt-get install git emacs --yes
+        - name: Fetching git directory..
+          uses: actions/checkout@v2
+        - name: Processing runtime..
+          shell: bash
+          run: |
+            cd "$GITHUB_WORKSPACE"
+
+            make -C "$GITHUB_WORKSPACE" runtime-emacs-script
+  darwin-runtime:
+    runs-on: macos-latest
+    steps:
+        - name: Installing dependencies..
+          shell: bash
+          run: |
+            brew update
+            brew cask install emacs          
+        - name: Fetching git directory..
+          uses: actions/checkout@v2
+        - name: Processing runtime..
+          shell: bash
+          run: |
+            cd "$GITHUB_WORKSPACE"
+
+            make -C "$GITHUB_WORKSPACE" runtime-emacs-script
+  darwin-runtime:
+    runs-on: windows-latest
+    steps:
+        - name: Installing dependencies..
+          # https://caiorss.github.io/Emacs-Elisp-Programming/Emacs_On_Windows.html
+          run: |
+            choco install emacs64
+            choco install make
+        - name: Fetching git directory..
+          uses: actions/checkout@v2
+        - name: Processing runtime..
+          shell: powershell
+          run: |
+            cd $env:GITHUB_WORKSPACE
+
+            make -C "$GITHUB_WORKSPACE" runtime-emacs-script
+
