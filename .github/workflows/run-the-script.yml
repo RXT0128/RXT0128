@@ -21,7 +21,7 @@ jobs:
           shell: bash
           run: |
             apt-get update
-            apt-get install git emacs --yes
+            apt-get install git emacs build-essential --yes
         - name: Fetching git directory..
           uses: actions/checkout@v2
         - name: Processing runtime..
